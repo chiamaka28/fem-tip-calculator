@@ -47,9 +47,8 @@ const Card = () => {
               }
             ),
             numberOfPeople: Yup.number()
-              .positive('Must be at least 1')
+              .typeError('Please enter a valid number')
               .min(1, "Can't be zero")
-              .integer('Must be a whole number')
               .required('Required'),
           })}
           onSubmit={(values) => {
@@ -108,8 +107,8 @@ const Card = () => {
                             ? new Intl.NumberFormat().format(numericValue)
                             : '';
 
-                          setFieldValue('billAmount', formattedValue); // UI value
-                          setFieldValue('billAmountNumeric', numericValue); // Numeric validation value
+                          setFieldValue('billAmount', formattedValue);
+                          setFieldValue('billAmountNumeric', numericValue);
                           setTouched({ billAmountNumeric: true });
                         }}
                       />
@@ -189,6 +188,12 @@ const Card = () => {
                         className={`w-full h-10 px-4 my-1 rounded-md bg-very-light-grayish-cyan text-dark-cyan text-2xl text-right  focus:outline-strong-cyan ${
                           errors.numberOfPeople ? 'border border-red-500 ' : ''
                         }`}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          const inputValue = e.target.value;
+                          const formattedValue = inputValue.replace(/\D/g, '');
+
+                          setFieldValue('numberOfPeople', formattedValue);
+                        }}
                       />
                     </div>
                   </div>
